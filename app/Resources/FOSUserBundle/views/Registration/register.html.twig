@@ -1,0 +1,10 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    {% block title %}<h1>Register with Read Together</h1>{% endblock %}
+    {% block content %}
+        {% block fos_user_content %}
+            {{ include('@FOSUser/Registration/register_content.html.twig') }}
+        {% endblock fos_user_content %}
+    {% endblock %}
+{% endblock %}

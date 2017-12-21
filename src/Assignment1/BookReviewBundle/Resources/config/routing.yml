@@ -1,0 +1,21 @@
+#src/Assignment1/BookReviewBundle/Resources/config/routing.yml
+book_review_index:
+    path:     /
+    defaults: { _controller: BookReviewBundle:Page:index }
+
+book_review_about:
+    path:     /about/
+    defaults: { _controller: BookReviewBundle:Page:about}
+
+book_review_book:
+    path:     /books/{bookId}
+    defaults: { _controller: BookReviewBundle:Page:book }
+
+book_review_user:
+    path:     /users/{userId}
+    defaults: { _controller: BookReviewBundle:Page:user }
+
+book_review_author:
+    path:     /authors/{authorId}
+    defaults: { _controller: BookReviewBundle:Page:author}
+
