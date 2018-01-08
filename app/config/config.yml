@@ -85,3 +85,18 @@ fos_user:
     from_email:
         address: "%mailer_user%"
         sender_name: "%mailer_user%"
+
+vich_uploader:
+    db_driver: orm
+    mappings:
+        author_images:
+            uri_prefix:         /bundles/BookReviewBundle/assets/author_images
+            upload_destination: '%kernel.root_dir%/web/bundles/BookReviewBundle/assets/author_images'
+
+        book_image:
+            uri_prefix:         /assets/book_covers
+            upload_destination: '%kernel.root_dir%/../app/Resources/public/assets/book_covers'
+
+        user_image:
+            uri_prefix:         /assets/user_images
+            upload_destination: '%kernel.root_dir%/../app/Resources/public/assets/user_images'

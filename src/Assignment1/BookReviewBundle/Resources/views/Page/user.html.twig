@@ -1,7 +1,16 @@
-{% extends "::base.html.twig" %}
+{% extends 'BookReviewBundle::layout.html.twig' %}
 
 {% block title %}BookReviewBundle:Page:user username{% endblock %}
-
-{% block body %}
-<h1>User's Username</h1>
+{% block imageColumn %}
+    <picture>
+        <source media="(min-width: 1080px)" srcset="">
+        <source media="(min-width: 600px)" srcset="">
+        <img src="" alt="user image" style="width:auto">
+    </picture>
+{% endblock %}
+{% block details %}
+    <h1>User's Name</h1>
+{% endblock %}
+{% block list %}
+    Add list here.
 {% endblock %}

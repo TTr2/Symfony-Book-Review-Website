@@ -24,7 +24,7 @@ class Review
 
     /**
      * @var \Assignment1\BookReviewBundle\Entity\Book
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="reviews")
+     * @ORM\ManyToOne(targetEntity="Book", inversedBy="reviews")
      * @ORM\JoinColumn(name="book", referencedColumnName="id")
      */
     private $book;
@@ -55,6 +55,13 @@ class Review
      * @ORM\Column(name="datetime", type="datetime_immutable")
      */
     private $date;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="summary", type="string", length=255)
+     */
+    private $summary;
 
     /**
      * @var string
@@ -187,7 +194,7 @@ class Review
     /**
      * Set book
      *
-     * @param \Assignment1\BookReviewBundle\Entity\User $book
+     * @param \Assignment1\BookReviewBundle\Entity\Book $book
      *
      * @return Review
      */
@@ -201,7 +208,7 @@ class Review
     /**
      * Get book
      *
-     * @return \Assignment1\BookReviewBundle\Entity\User
+     * @return \Assignment1\BookReviewBundle\Entity\Book
      */
     public function getBook()
     {
@@ -264,5 +271,29 @@ class Review
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Set summary
+     *
+     * @param string $summary
+     *
+     * @return Review
+     */
+    public function setSummary($summary)
+    {
+        $this->summary = $summary;
+
+        return $this;
+    }
+
+    /**
+     * Get summary
+     *
+     * @return string
+     */
+    public function getSummary()
+    {
+        return $this->summary;
     }
 }

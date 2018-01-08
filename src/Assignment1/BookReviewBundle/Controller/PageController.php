@@ -32,10 +32,22 @@ class PageController extends Controller
         ));
     }
 
-    public function authorAction($authorId)
+    public function reviewAction($reviewId)
     {
-        return $this->render('BookReviewBundle:Page:author.html.twig', array(
-            'authorId' => $authorId
+        return $this->render('BookReviewBundle:Page:review.html.twig', array(
+            'reviewId' => $reviewId
+        ));
+    }
+
+    public function addAuthorAction()
+    {
+        return $this->render('BookReviewBundle:Page:addAuthor.html.twig', array(
+        ));
+    }
+
+    public function addBookAction()
+    {
+        return $this->render('BookReviewBundle:Page:addBook.html.twig', array(
         ));
     }
 }

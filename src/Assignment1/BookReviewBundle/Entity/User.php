@@ -66,7 +66,7 @@ class User extends BaseUser
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="review")
      */
     protected $comments;
 
@@ -122,7 +122,7 @@ class User extends BaseUser
      */
     public function getHaveReadList()
     {
-        return $this->haveReadList;
+        return $this->haveRead;
     }
 
     /**

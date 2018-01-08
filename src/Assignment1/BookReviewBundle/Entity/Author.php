@@ -3,10 +3,14 @@
 namespace Assignment1\BookReviewBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+//use Vich\UploaderBundle\Entity\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Author
  *
+ * @Vich\Uploadable
  * @ORM\Table(name="author")
  * @ORM\Entity(repositoryClass="Assignment1\BookReviewBundle\Repository\AuthorRepository")
  */
@@ -44,7 +48,7 @@ class Author
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Book", inversedBy="books")
+     * @ORM\ManyToMany(targetEntity="Book", mappedBy="books")
      * @ORM\JoinTable(name="authors_books")
      */
     private $books;
@@ -57,11 +61,33 @@ class Author
     private $biography = 'No biography available';
 
     /**
-     * @var string
+     * @Vich\UploadableField(mapping="author_images", fileNameProperty="imageName", size="imageSize")
      *
-     * @ORM\Column(name="authorImage", type="string", length=255, nullable=true)
+     * @var File
      */
-    private $authorImage = '/Resources/public/assets/author_images/blank_author_image.png';
+    private $imageFile;
+
+    /**
+     * @ORM\Column(name="imageName", type="string", length=255, nullable=true)
+     *
+     * @var string
+     */
+
+    private $imageName;
+
+    /**
+     * @ORM\Column(type="integer")
+     *
+     * @var integer
+     */
+    private $imageSize;
+
+    /**
+     * @ORM\Column(type="datetime")
+     *
+     * @var \DateTime
+     */
+    private $updatedAt;
 
     /**
      * Author constructor.
@@ -72,6 +98,75 @@ class Author
         $this->fullName = $this->firstName . ' ' . $this->lastName;
     }
 
+    /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the  update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     *
+     * @return Author
+     */
+    public function setImageFile(File $image = null)
+    {
+        $this->imageFile = $image;
+
+        if ($image) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param string $imageName
+     *
+     * @return Author
+     */
+    public function setImageName($imageName)
+    {
+        $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImageName()
+    {
+        return $this->imageName;
+    }
+
+    /**
+     * @param integer $imageSize
+     *
+     * @return Author
+     */
+    public function setImageSize($imageSize)
+    {
+        $this->imageSize = $imageSize;
+
+        return $this;
+    }
+
+    /**
+     * @return integer|null
+     */
+    public function getImageSize()
+    {
+        return $this->imageSize;
+    }
 
     /**
      * Get id
@@ -164,30 +259,6 @@ class Author
     }
 
     /**
-     * Set authorImage
-     *
-     * @param string $authorImage
-     *
-     * @return Author
-     */
-    public function setAuthorImage($authorImage)
-    {
-        $this->authorImage = $authorImage;
-
-        return $this;
-    }
-
-    /**
-     * Get authorImage
-     *
-     * @return string
-     */
-    public function getAuthorImage()
-    {
-        return $this->authorImage;
-    }
-
-    /**
      * Set fullName
      *
      * @param string $fullName
@@ -233,5 +304,29 @@ class Author
     public function getBooks()
     {
         return $this->books;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return Author
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 }

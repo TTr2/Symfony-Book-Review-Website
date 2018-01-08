@@ -31,9 +31,9 @@ class Book
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Author", mappedBy="books")
+     * @ORM\OneToMany(targetEntity="Author", mappedBy="book")
      */
-    private $authors;
+    private $author;
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
@@ -102,7 +102,7 @@ class Book
      */
     public function __construct()
     {
-        $this->authors = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->author = new \Doctrine\Common\Collections\ArrayCollection();
         $this->reviews = new \Doctrine\Common\Collections\ArrayCollection();
         if (is_null($this->pages))
         {
@@ -147,9 +147,9 @@ class Book
     /**
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function getAuthors()
+    public function getAuthor()
     {
-        return $this->authors;
+        return $this->author;
     }
 
     /**
@@ -345,7 +345,7 @@ class Book
      */
     public function addAuthor(\Assignment1\BookReviewBundle\Entity\Author $author)
     {
-        $this->authors[] = $author;
+        $this->author[] = $author;
 
         return $this;
     }
@@ -357,7 +357,7 @@ class Book
      */
     public function removeAuthor(\Assignment1\BookReviewBundle\Entity\Author $author)
     {
-        $this->authors->removeElement($author);
+        $this->author->removeElement($author);
     }
 
     /**

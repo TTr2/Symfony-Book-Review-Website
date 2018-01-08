@@ -1,10 +1,22 @@
 {% extends 'BookReviewBundle::layout.html.twig' %}
 
-{% block title %}
-
+{% block title %}Add a Book{% endblock %}
+{% block imageColumn %}
+    <picture>
+        <source media="(min-width: 1080px)" srcset="/app/Resources/public/assets/book_covers/no_cover_available.png">
+        <source media="(min-width: 600px)" srcset="/app/Resources/public/assets/book_covers/no_cover_available.png">
+        <img src="" alt="user image" style="width:auto">
+    </picture>
 {% endblock %}
-
+{% block details %}
+    <header>
+        <h1>Add a new book by *Author - param*</h1>
+    </header>
+    {{ form_start(form) }}
+    {{ form_row(form.imageFile) }}
+    {{ form_end(form) }}
+{% endblock %}
 {% block list %}
-
+    Add list here?
 {% endblock %}
 
