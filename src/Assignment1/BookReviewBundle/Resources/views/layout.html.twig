@@ -18,7 +18,7 @@
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="{{ path('book_review_about') }}">About</a></li>
-                        <li><a href="{{ path('book_review_user', { 'userId' : 1}) }}">My Profile</a></li>
+                        <li><a href="{{ path('book_review_view_user', { 'userId' :  app.user.id }) }}">My Profile</a></li>
                         <li><a href="{{ path('fos_user_registration_register') }}">Register</a></li>
                         <li><a href="{{ path('fos_user_security_login') }}">Login</a></li>
                         <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>

@@ -25,14 +25,14 @@ class Review
     /**
      * @var \Assignment1\BookReviewBundle\Entity\Book
      * @ORM\ManyToOne(targetEntity="Book", inversedBy="reviews")
-     * @ORM\JoinColumn(name="book", referencedColumnName="id")
+     * @ORM\JoinColumn(name="book_id", referencedColumnName="id")
      */
     private $book;
 
     /**
      * @var \Assignment1\BookReviewBundle\Entity\User
      * @ORM\ManyToOne(targetEntity="User", inversedBy="reviews")
-     * @ORM\JoinColumn(name="user", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
 

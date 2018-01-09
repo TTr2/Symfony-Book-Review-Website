@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User extends BaseUser
 {
-    const USER_IMAGES_PATH = '/Resources/public/assets/user_images/';
+    const USER_IMAGES_PATH = '/web/bundles/BookReviewBundle/assets/user_images/';
     const STOCK_AVATAR_FILENAME = 'stockAvatar';
     /**
      * @ORM\Id

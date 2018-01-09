@@ -31,9 +31,17 @@ class Book
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
-     * @ORM\OneToMany(targetEntity="Author", mappedBy="book")
+     * @ORM\ManyToOne(targetEntity="Author")
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="id")
      */
     private $author;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="synopsis", type="text", length=255)
+     */
+    private $synopsis;
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
@@ -58,21 +66,21 @@ class Book
     /**
      * @var \Assignment1\BookReviewBundle\Entity\Genre
      * @ORM\ManyToOne(targetEntity="Genre")
-     * @ORM\JoinColumn(name="genre", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="genre_id", referencedColumnName="id", nullable=true)
      */
     private $genre;
 
     /**
      * @var \Assignment1\BookReviewBundle\Entity\Language
      * @ORM\ManyToOne(targetEntity="Language")
-     * @ORM\JoinColumn(name="language", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="language_id", referencedColumnName="id", nullable=true)
      */
     private $language;
 
     /**
      * @var \Assignment1\BookReviewBundle\Entity\Publisher
      * @ORM\ManyToOne(targetEntity="Publisher")
-     * @ORM\JoinColumn(name="publisher", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="publisher_id", referencedColumnName="id", nullable=true)
      */
     private $publisher;
 
@@ -153,11 +161,27 @@ class Book
     }
 
     /**
+     * @return string
+     */
+    public function getSynopsis()
+    {
+        return $this->synopsis;
+    }
+
+    /**
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getReviews()
     {
         return $this->reviews;
+    }
+
+    /**
+     * @param string $synopsis
+     */
+    public function setSynopsis($synopsis)
+    {
+        $this->synopsis = $synopsis;
     }
 
     /**

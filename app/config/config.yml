@@ -92,6 +92,7 @@ vich_uploader:
         author_images:
             uri_prefix:         /bundles/BookReviewBundle/assets/author_images
             upload_destination: '%kernel.root_dir%/web/bundles/BookReviewBundle/assets/author_images'
+            inject_on_load:     true
 
         book_image:
             uri_prefix:         /assets/book_covers

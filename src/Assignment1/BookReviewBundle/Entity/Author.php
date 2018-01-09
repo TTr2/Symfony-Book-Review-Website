@@ -40,16 +40,8 @@ class Author
     private $lastName;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="fullName", type="string", length=150)
-     */
-    private $fullName;
-
-    /**
      * @var \Doctrine\Common\Collections\ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Book", mappedBy="books")
-     * @ORM\JoinTable(name="authors_books")
+     * @ORM\OneToMany(targetEntity="Book", mappedBy="author")
      */
     private $books;
 
@@ -72,7 +64,6 @@ class Author
      *
      * @var string
      */
-
     private $imageName;
 
     /**
@@ -95,7 +86,6 @@ class Author
     public function __construct()
     {
         $this->books = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->fullName = $this->firstName . ' ' . $this->lastName;
     }
 
     /**
@@ -109,7 +99,7 @@ class Author
      *
      * @return Author
      */
-    public function setImageFile(File $image = null)
+    public function setImageFile(?File $image = null) : void
     {
         $this->imageFile = $image;
 
@@ -183,7 +173,7 @@ class Author
      */
     public function getFullName()
     {
-        return $this->fullName;
+        return $this->firstName . ' ' . $this->lastName;
     }
 
     /**
@@ -259,20 +249,6 @@ class Author
     }
 
     /**
-     * Set fullName
-     *
-     * @param string $fullName
-     *
-     * @return Author
-     */
-    public function setFullName($fullName)
-    {
-        $this->fullName = $fullName;
-
-        return $this;
-    }
-
-    /**
      * Add book
      *
      * @param \Assignment1\BookReviewBundle\Entity\Book $book
@@ -328,5 +304,13 @@ class Author
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIdAsString()
+    {
+        return "$this->id";
     }
 }

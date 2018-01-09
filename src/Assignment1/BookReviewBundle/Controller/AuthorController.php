@@ -20,14 +20,38 @@ class AuthorController extends Controller
 
     public function viewAction($authorId)
     {
-        return $this->render('BookReviewBundle:Page:author.html.twig', array(
-            'authorId' => $authorId
+        // Retrieve the author instance
+        $em = $this->getDoctrine()->getManager();
+        $author = $em->getRepository('BookReviewBundle:Author')->find($authorId);
+
+        return $this->render('BookReviewBundle:Page:viewAuthor.html.twig', ['author' => $author]);
+    }
+
+    public function editAction(Request $request, $authorId)
+    {
+        // Retrieve the author instance
+        $em = $this->getDoctrine()->getManager();
+        $author = $em->getRepository('BookReviewBundle:Author')->find($authorId);
+
+        $form = $this->createForm(AuthorType::class, $author);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // Persist the new $author variable
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($author);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('book_review_view_author', array('authorId' => $authorId)));
+
+        }
+
+        return $this->render('BookReviewBundle:Page:editAuthor.html.twig', array(
+            'form' => $form->createView(), 'author' => $author
         ));
     }
 
-    /**
-    //     * @Route("/author/new", name="author_new")
-     */
     public function newAction(Request $request)
     {
         $author = new Author();
@@ -41,12 +65,11 @@ class AuthorController extends Controller
             $em->persist($author);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('book_review_author', array('authorId' => $author->getId())));
+            return $this->redirect($this->generateUrl('book_review_view_author', array('authorId' => $author->getId())));
         }
 
-        return $this->render('BookReviewBundle:Page:addAuthor.html.twig', array(
+        return $this->render('BookReviewBundle:Page:viewAuthor.html.twig', array(
             'form' => $form->createView(),
         ));
     }
-
 }

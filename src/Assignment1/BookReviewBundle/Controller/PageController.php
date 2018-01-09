@@ -20,34 +20,16 @@ class PageController extends Controller
 
     public function userAction($userId)
     {
-        return $this->render('BookReviewBundle:Page:user.html.twig', array(
+        return $this->render('viewUser.twig', array(
             'userId' => $userId
-        ));
-    }
-
-    public function bookAction($bookId)
-    {
-        return $this->render('BookReviewBundle:Page:book.html.twig', array(
-            'bookId' => $bookId
         ));
     }
 
     public function reviewAction($reviewId)
     {
-        return $this->render('BookReviewBundle:Page:review.html.twig', array(
+        return $this->render('viewReview.html.twig', array(
             'reviewId' => $reviewId
         ));
     }
 
-    public function addAuthorAction()
-    {
-        return $this->render('BookReviewBundle:Page:addAuthor.html.twig', array(
-        ));
-    }
-
-    public function addBookAction()
-    {
-        return $this->render('BookReviewBundle:Page:addBook.html.twig', array(
-        ));
-    }
 }

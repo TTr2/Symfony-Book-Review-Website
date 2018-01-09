@@ -8,14 +8,18 @@ book_review_about:
     defaults: { _controller: BookReviewBundle:Page:about}
 
 book_review_add_book:
-    path:     /books/new
+    path:     /books/new/{authorId}
     defaults: { _controller: BookReviewBundle:Book:new}
 
-book_review_book:
+book_review_edit_book:
+    path:     /books/edit/{bookId}
+    defaults: { _controller: BookReviewBundle:Book:edit}
+
+book_review_view_book:
     path:     /books/{bookId}
     defaults: { _controller: BookReviewBundle:Book:view }
 
-book_review_user:
+book_review_view_user:
     path:     /users/{userId}
     defaults: { _controller: BookReviewBundle:Page:user }
 
@@ -23,7 +27,11 @@ book_review_add_author:
     path:     /authors/new
     defaults: { _controller: BookReviewBundle:Author:new}
 
-book_review_author:
+book_review_edit_author:
+    path:     /authors/edit/{authorId}
+    defaults: { _controller: BookReviewBundle:Author:edit}
+
+book_review_view_author:
     path:     /authors/{authorId}
     defaults: { _controller: BookReviewBundle:Author:view}
 
