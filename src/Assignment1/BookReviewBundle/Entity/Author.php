@@ -2,9 +2,9 @@
 
 namespace Assignment1\BookReviewBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
-//use Vich\UploaderBundle\Entity\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
@@ -53,7 +53,7 @@ class Author
     private $biography = 'No biography available';
 
     /**
-     * @Vich\UploadableField(mapping="author_images", fileNameProperty="imageName", size="imageSize")
+     * @Vich\UploadableField(mapping="author_images", fileNameProperty="imageName")
      *
      * @var File
      */
@@ -64,14 +64,7 @@ class Author
      *
      * @var string
      */
-    private $imageName;
-
-    /**
-     * @ORM\Column(type="integer")
-     *
-     * @var integer
-     */
-    private $imageSize;
+    private $imageName = 'blank_author_image.png';
 
     /**
      * @ORM\Column(type="datetime")
@@ -85,7 +78,7 @@ class Author
      */
     public function __construct()
     {
-        $this->books = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->books = new ArrayCollection();
     }
 
     /**
@@ -99,7 +92,7 @@ class Author
      *
      * @return Author
      */
-    public function setImageFile(?File $image = null) : void
+    public function setImageFile(?File $image = null)
     {
         $this->imageFile = $image;
 
@@ -108,6 +101,8 @@ class Author
             // otherwise the event listeners won't be called and the file is lost
             $this->updatedAt = new \DateTimeImmutable();
         }
+
+        return $this;
     }
 
     /**
@@ -136,26 +131,6 @@ class Author
     public function getImageName()
     {
         return $this->imageName;
-    }
-
-    /**
-     * @param integer $imageSize
-     *
-     * @return Author
-     */
-    public function setImageSize($imageSize)
-    {
-        $this->imageSize = $imageSize;
-
-        return $this;
-    }
-
-    /**
-     * @return integer|null
-     */
-    public function getImageSize()
-    {
-        return $this->imageSize;
     }
 
     /**
@@ -255,7 +230,7 @@ class Author
      *
      * @return Author
      */
-    public function addBook(\Assignment1\BookReviewBundle\Entity\Book $book)
+    public function addBook(Book $book)
     {
         $this->books[] = $book;
 
@@ -267,7 +242,7 @@ class Author
      *
      * @param \Assignment1\BookReviewBundle\Entity\Book $book
      */
-    public function removeBook(\Assignment1\BookReviewBundle\Entity\Book $book)
+    public function removeBook(Book $book)
     {
         $this->books->removeElement($book);
     }
@@ -309,8 +284,8 @@ class Author
     /**
      * @return string
      */
-    public function getIdAsString()
+    public function getImageFilePath()
     {
-        return "$this->id";
+        return 'bundles/BookReviewBundle/assets/author_images/' . $this->imageName;
     }
 }

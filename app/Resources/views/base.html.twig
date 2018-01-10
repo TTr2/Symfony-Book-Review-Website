@@ -9,8 +9,11 @@
         'https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'
         '../app/Resources/public/css/screen.css' %}
         <link href="{{ asset_url }} " type="text/css" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         {% endstylesheets %}
-    {% endblock %}
+        {% block customstylesheets %}
+        {% endblock %}
+     {% endblock %}
     {% block javascript %}
         {% javascripts
         'https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'

@@ -1,10 +1,10 @@
-{% extends 'BookReviewBundle::layout.html.twig' %}
+{% extends "::base.html.twig" %}
 
 {% block title %}BookReviewBundle:Page:book title{% endblock %}
 
 {% block body %}
     <header>
-        <h1>About "Read Together"</h1>
+        <h1>Search "Read Together"</h1>
     </header>
     <article>
         <h3>We like to know what people are reading - and we like to know what people think about what they are
@@ -16,4 +16,6 @@
             reading.</p>
         <p>Or better still, why not tell people what you think about what they think about what people are reading!</p>
     </article>
+
+    <!-- use same terms as the search bar in layout twig -->
 {% endblock %}

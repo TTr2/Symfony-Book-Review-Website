@@ -2,45 +2,16 @@
 
 {% block title %} Add an Author{% endblock %}
 {% block imageColumn %}
-    <img src="{{ asset('bundles/BookReviewBundle/assets/author_images/blank_author_image.png')}}" alt="user image" style="width:auto">
-    {% javascripts %}
-    <script type="text/javascript">
-        var bb = document.querySelector ('.imageColumn')
-                .getBoundingClientRect(),
-            imageColumnWidth = bb.right - bb.left;
-        var img = document.getElementById('authorImg');
-        img[0].style.width = imageColumnWidth;
-        img[0].style.height = imageColumnWidth;
-    </script>
-    {% endjavascripts %}
+    <img src="{{ asset('bundles/BookReviewBundle/assets/author_images/blank_author_image.png')}}" alt="No Image Available" width="250" height="250">
+    <p></p>
+    <p class="disclaimer" style="font-style: italic">Your help is appreciated! We are a community run site so we rely on the active contribution of users, but please strive for truth and accuracy.</p>
 {% endblock %}
 {% block details %}
     <header>
-        <h1>Add a new Author</h1>
+        <h1>Add an Author to the Library</h1>
     </header>
+    <p>To add an author to "Read Together", enter their details in the fields below. For best results, select a square author image (250x250 pixels) then select "Confirm".</p>
     {{ form_start(form) }}
-    {{ form_row(form.imageFile) }}
     {{ form_end(form) }}
-{% endblock %}
-{% block list %}
-    <h3>Books by {{ author.getFullName() }}:</h3>
-    <button type="button"><a href="{{ path('book_review_add_book', {'authorId' : author.id}) }}">Add a Book by {{ author.fullName }}</a></button>
-    {% for book in author.books %}
-        <div class="row">
-            <section class="col-md-3">
-                <div class="imageColumn">
-                    <img src="{{ book.imageFile }}" alt="Image of the book cover." width="100" height="150px"/>
-                </div>
-            </section>
-            <section class="col-md-8">
-                <h4><a href="{{ path('book_review_view_book', {'bookId' : book.id})}}">{{book.title }}</a></h4>
-                <p>Synopsis: {{ book.synopsis }}</p>
-                <p>Genre: {{ book.genre }}</p>
-            </section>
-            <section class="col-md-1">
-                <button type="button"><a href="{{ path('book_review_edit_book', {'bookId' : book.id}) }}">Edit</a></button>
-            </section>
-        </div>
-    {% endfor %}
 {% endblock %}
 

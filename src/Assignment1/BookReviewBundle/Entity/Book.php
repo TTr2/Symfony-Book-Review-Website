@@ -2,7 +2,11 @@
 
 namespace Assignment1\BookReviewBundle\Entity;
 
+use DateTime;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,7 +34,7 @@ class Book
     private $title;
 
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection
+     * @var \Assignment1\BookReviewBundle\Entity\Author
      * @ORM\ManyToOne(targetEntity="Author")
      * @ORM\JoinColumn(name="author_id", referencedColumnName="id")
      */
@@ -39,7 +43,7 @@ class Book
     /**
      * @var string
      *
-     * @ORM\Column(name="synopsis", type="text", length=255)
+     * @ORM\Column(name="synopsis", type="text")
      */
     private $synopsis;
 
@@ -64,23 +68,16 @@ class Book
     private $isbn_13;
 
     /**
-     * @var \Assignment1\BookReviewBundle\Entity\Genre
-     * @ORM\ManyToOne(targetEntity="Genre")
-     * @ORM\JoinColumn(name="genre_id", referencedColumnName="id", nullable=true)
+     * @var string
+     *
+     * @ORM\Column(name="genre", type="string", length=25, unique=false)
      */
     private $genre;
 
     /**
-     * @var \Assignment1\BookReviewBundle\Entity\Language
-     * @ORM\ManyToOne(targetEntity="Language")
-     * @ORM\JoinColumn(name="language_id", referencedColumnName="id", nullable=true)
-     */
-    private $language;
-
-    /**
-     * @var \Assignment1\BookReviewBundle\Entity\Publisher
-     * @ORM\ManyToOne(targetEntity="Publisher")
-     * @ORM\JoinColumn(name="publisher_id", referencedColumnName="id", nullable=true)
+     * @var string
+     *
+     * @ORM\Column(name="publisher", type="string", length=60, unique=false)
      */
     private $publisher;
 
@@ -99,23 +96,32 @@ class Book
     private $publishedDate;
 
     /**
-     * @var string
+     * @Vich\UploadableField(mapping="author_images", fileNameProperty="imageName", size="imageSize")
      *
-     * @ORM\Column(name="coverImage", type="string", length=255, nullable=true)
+     * @var File
      */
-    private $coverImage = '/Resources/public/assets/user_images/no_cover_available.png';
+    private $imageFile;
+
+    /**
+     * @ORM\Column(name="imageName", type="string", length=255, nullable=true)
+     *
+     * @var string
+     */
+    private $imageName = 'no_cover_available.png';
+
+    /**
+     * @ORM\Column(type="datetime")
+     *
+     * @var \DateTime
+     */
+    private $updatedAt;
 
     /**
      * Book constructor.
      */
     public function __construct()
     {
-        $this->author = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->reviews = new \Doctrine\Common\Collections\ArrayCollection();
-        if (is_null($this->pages))
-        {
-            $this->setPages(rand(75,1250));
-        }
+        $this->reviews = new ArrayCollection();
     }
 
     /**
@@ -153,11 +159,19 @@ class Book
     }
 
     /**
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @return Author
      */
     public function getAuthor()
     {
         return $this->author;
+    }
+
+    /**
+     * @param Author $author
+     */
+    public function setAuthor($author)
+    {
+        $this->author = $author;
     }
 
     /**
@@ -233,30 +247,6 @@ class Book
     }
 
     /**
-     * Set language
-     *
-     * @param string $language
-     *
-     * @return Book
-     */
-    public function setLanguage($language)
-    {
-        $this->language = $language;
-
-        return $this;
-    }
-
-    /**
-     * Get language
-     *
-     * @return string
-     */
-    public function getLanguage()
-    {
-        return $this->language;
-    }
-
-    /**
      * Set amazonURL
      *
      * @param string $amazonURL
@@ -283,13 +273,13 @@ class Book
     /**
      * Set publishedDate
      *
-     * @param date_immutable $publishedDate
+     * @param DateTime $publishedDate
      *
      * @return Book
      */
     public function setPublishedDate($publishedDate)
     {
-        $this->publishedDate = $publishedDate;
+        $this->publishedDate = DateTimeImmutable::createFromMutable($publishedDate);
 
         return $this;
     }
@@ -297,7 +287,7 @@ class Book
     /**
      * Get publishedDate
      *
-     * @return date_immutable
+     * @return DateTimeImmutable
      */
     public function getPublishedDate()
     {
@@ -305,27 +295,45 @@ class Book
     }
 
     /**
-     * Set coverImage
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the  update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
      *
-     * @param string $coverImage
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      *
      * @return Book
      */
-    public function setCoverImage($coverImage)
+    public function setImageFile(?File $image = null)
     {
-        $this->coverImage = $coverImage;
+        $this->imageFile = $image;
 
-        return $this;
+        if ($image) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
     }
 
     /**
-     * Get coverImage
-     *
-     * @return string
+     * @return File|null
      */
-    public function getCoverImage()
+    public function getImageFile()
     {
-        return $this->coverImage;
+        return $this->imageFile;
+    }
+
+    /**
+     * @param string $imageName
+     *
+     * @return Book
+     */
+    public function setImageName($imageName)
+    {
+        $this->imageName = $imageName;
+
+        return $this;
     }
 
     /**
@@ -335,6 +343,47 @@ class Book
     {
         return $this->genre;
     }
+
+    /**
+     * @param string $genre
+     *
+     * @return Book
+     */
+    public function setGenre($genre)
+    {
+        $this->genre = $genre;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPublisher()
+    {
+        return $this->publisher;
+    }
+
+    /**
+     * @param string $publisher
+     *
+     * @return Book
+     */
+    public function setPublisher($publisher)
+    {
+        $this->publisher = $publisher;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImageName()
+    {
+        return $this->imageName;
+    }
+
 
     /**
      * Set isbn13
@@ -360,29 +409,6 @@ class Book
         return $this->isbn_13;
     }
 
-    /**
-     * Add author
-     *
-     * @param \Assignment1\BookReviewBundle\Entity\Author $author
-     *
-     * @return Book
-     */
-    public function addAuthor(\Assignment1\BookReviewBundle\Entity\Author $author)
-    {
-        $this->author[] = $author;
-
-        return $this;
-    }
-
-    /**
-     * Remove author
-     *
-     * @param \Assignment1\BookReviewBundle\Entity\Author $author
-     */
-    public function removeAuthor(\Assignment1\BookReviewBundle\Entity\Author $author)
-    {
-        $this->author->removeElement($author);
-    }
 
     /**
      * Add review
@@ -391,7 +417,7 @@ class Book
      *
      * @return Book
      */
-    public function addReview(\Assignment1\BookReviewBundle\Entity\Review $review)
+    public function addReview(Review $review)
     {
         $this->reviews[] = $review;
 
@@ -403,46 +429,40 @@ class Book
      *
      * @param \Assignment1\BookReviewBundle\Entity\Review $review
      */
-    public function removeReview(\Assignment1\BookReviewBundle\Entity\Review $review)
+    public function removeReview(Review $review)
     {
         $this->reviews->removeElement($review);
     }
 
     /**
-     * Set genre
+     * Set updatedAt
      *
-     * @param \Assignment1\BookReviewBundle\Entity\Genre $genre
+     * @param \DateTime $updatedAt
      *
      * @return Book
      */
-    public function setGenre(\Assignment1\BookReviewBundle\Entity\Genre $genre = null)
+    public function setUpdatedAt($updatedAt)
     {
-        $this->genre = $genre;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
     /**
-     * Set publisher
+     * Get updatedAt
      *
-     * @param \Assignment1\BookReviewBundle\Entity\Publisher $publisher
-     *
-     * @return Book
+     * @return \DateTime
      */
-    public function setPublisher(\Assignment1\BookReviewBundle\Entity\Publisher $publisher = null)
+    public function getUpdatedAt()
     {
-        $this->publisher = $publisher;
-
-        return $this;
+        return $this->updatedAt;
     }
 
     /**
-     * Get publisher
-     *
-     * @return \Assignment1\BookReviewBundle\Entity\Publisher
+     * @return string
      */
-    public function getPublisher()
+    public function getImageFilePath()
     {
-        return $this->publisher;
+        return 'bundles/BookReviewBundle/assets/book_covers/' . $this->imageName;
     }
 }

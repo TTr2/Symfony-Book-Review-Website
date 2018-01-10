@@ -1,42 +1,46 @@
-{# src/Blogger/BlogBundle/Resources/views/layout.html.twig #}
+{# Assignment1/BookReviewBundle/Resources/views/layout.html.twig #}
 {% extends '::base.html.twig' %}
-    {% block favicon %}
-        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('bundles/BookReviewBundle/assets/favicon/favicon.ico')}}"/>
-    {% endblock %}
-    {% block navbar %}
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <button type="button" class="navbar-toggle collapsed"
-                        data-toggle="collapse"
-                        data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">Read Together</a>
-                <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="{{ path('book_review_about') }}">About</a></li>
+{% block customstylesheets %}
+    <link href="css/BookReviewWebsite_style.css" type="text/css" rel="stylesheet"/>
+{% endblock %}
+{% block favicon %}
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('bundles/BookReviewBundle/assets/favicon/favicon.ico')}}"/>
+{% endblock %}
+{% block navbar %}
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ path('book_review_index') }}">Read Together</a>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{{ path('book_review_about') }}">About</a></li>
+                    {% if app.user %}
                         <li><a href="{{ path('book_review_view_user', { 'userId' :  app.user.id }) }}">My Profile</a></li>
-                        <li><a href="{{ path('fos_user_registration_register') }}">Register</a></li>
-                        <li><a href="{{ path('fos_user_security_login') }}">Login</a></li>
                         <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                </div>
+                    {%  endif %}
+                    <li><a href="{{ path('fos_user_registration_register') }}">Register</a></li>
+                    <li><a href="{{ path('fos_user_security_login') }}">Login</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
             </div>
-        </nav>
-    {% endblock %}
-
+        </div>
+    </nav>
+{% endblock %}
 {% block body %}
     <div class="row">
-        <section class="col-md-3">
+        <section class="col-md-4">
             <div class="imageColumn">
                 {% block imageColumn %}{% endblock %}
             </div>
         </section>
-        <section class="col-md-9">
+        <section class="col-md-8">
             <div class="row">
                 <section>
                     {% block details %}{% endblock %}
@@ -47,11 +51,17 @@
                     {% block list %}{% endblock %}
                 </section>
             </div>
+            <br>
+            <br>
         </section>
     </div>
 {% endblock %}
 
 {% block sidebar %}
-    Search bar
-    Sidebar content
+    <div class="search-container">
+        <form action="{{ path('book_review_search') }}">
+            <input type="text" placeholder="Search..." name="search" size="20">
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+    </div>
 {% endblock %}

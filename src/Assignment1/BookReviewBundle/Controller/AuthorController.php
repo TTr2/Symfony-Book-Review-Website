@@ -13,7 +13,6 @@ use Assignment1\BookReviewBundle\Entity\Author;
 use Assignment1\BookReviewBundle\Form\AuthorType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 
 class AuthorController extends Controller
 {
@@ -24,6 +23,11 @@ class AuthorController extends Controller
         $em = $this->getDoctrine()->getManager();
         $author = $em->getRepository('BookReviewBundle:Author')->find($authorId);
 
+        if (!$author)
+        {
+            throw $this->createNotFoundException('Sorry, that author was not found.');
+        }
+
         return $this->render('BookReviewBundle:Page:viewAuthor.html.twig', ['author' => $author]);
     }
 
@@ -32,6 +36,11 @@ class AuthorController extends Controller
         // Retrieve the author instance
         $em = $this->getDoctrine()->getManager();
         $author = $em->getRepository('BookReviewBundle:Author')->find($authorId);
+
+        if (!$author)
+        {
+            throw $this->createNotFoundException('Sorry, that author was not found.');
+        }
 
         $form = $this->createForm(AuthorType::class, $author);
         $form->handleRequest($request);
@@ -68,8 +77,8 @@ class AuthorController extends Controller
             return $this->redirect($this->generateUrl('book_review_view_author', array('authorId' => $author->getId())));
         }
 
-        return $this->render('BookReviewBundle:Page:viewAuthor.html.twig', array(
-            'form' => $form->createView(),
+        return $this->render('BookReviewBundle:Page:newAuthor.html.twig', array(
+            'form' => $form->createView()
         ));
     }
 }

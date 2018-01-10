@@ -35,5 +35,14 @@ book_review_view_author:
     path:     /authors/{authorId}
     defaults: { _controller: BookReviewBundle:Author:view}
 
+book_review_search:
+    path:     /search/
+    defaults: { _controller: BookReviewBundle:Search:view}
+
+book_review_delete:
+    path:     /delete/{entity}/{id}
+    defaults: { _controller: BookReviewBundle:Delete:delete}
+
+
 
 

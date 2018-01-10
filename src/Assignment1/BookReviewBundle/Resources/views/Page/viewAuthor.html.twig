@@ -1,15 +1,13 @@
 {% extends 'BookReviewBundle::layout.html.twig' %}
-
 {% block title %}{{ author.getFullName() }}{% endblock %}
 {% block imageColumn %}
-    <picture>
-        <source media="(min-width: 1080px)" srcset="{{ author.imageFile }}">
-        <source media="(min-width: 600px)" srcset="{{ author.imageFile }}">
-        <img src="" alt="Image of the Author" style="width:auto">
-    </picture>
+    <img src="{{ asset(author.getImageFilePath()) }}" alt="{{ author.imageName }}" width="250" height="250">
+    <p></p>
+    <p class="disclaimer" style="font-style: italic">We are a community run site so we rely on the active contribution of users for truth and accuracy. If you spot an error, please consider editing this Author profile..</p>
+    <button type="button"><a href="{{ path('book_review_edit_author', {'authorId' : author.id}) }}">Edit Profile</a></button>
 {% endblock %}
 {% block details %}
-    <h1>{{ author.getFullName() }}</h1>
+    <h1>{{ author.getFullName() }} (Author)</h1>
     <h2>Biography:</h2>
     <p>{{ author.biography }} </p>
 {% endblock %}
@@ -20,7 +18,7 @@
         <div class="row">
             <section class="col-md-3">
                 <div class="imageColumn">
-                    <img src="{{ book.imageFile }}" alt="Image of the book cover." width="100" height="150px"/>
+                    <img src="{{ asset(book.getImageFilePath()) }}" alt="Image of the book cover." width="100" height="150px"/>
                 </div>
             </section>
             <section class="col-md-8">

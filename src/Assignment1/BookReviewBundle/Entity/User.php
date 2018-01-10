@@ -66,7 +66,7 @@ class User extends BaseUser
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="review")
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="user")
      */
     protected $comments;
 

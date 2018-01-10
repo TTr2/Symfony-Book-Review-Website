@@ -2,14 +2,16 @@
 
 {% block title %} Edit an Author{% endblock %}
 {% block imageColumn %}
-    <img src="{{ author.imageName }}" alt="{{ author.imageName }}" width="200">
+    <img src="{{ asset(author.getImageFilePath()) }}" alt="{{ author.imageName }}" width="250" height="250">
+    <p></p>
+    <p class="disclaimer" style="font-style: italic">Your help is appreciated! We are a community run site so we rely on the active contribution of users, but please strive for truth and accuracy.</p>
 {% endblock %}
 {% block details %}
     <header>
         <h1>Edit "{{ author.getFullName() }}" (Author)</h1>
     </header>
+    <p>To edit an author on "Read Together", modify their details in the fields below. For best results, select a square author image (250x250 pixels) then select "Confirm".</p>
     {{ form_start(form) }}
-    {{ form_row(form.imageFile) }}
     {{ form_end(form) }}
 {% endblock %}
 {% block list %}
