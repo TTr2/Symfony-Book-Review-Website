@@ -9,12 +9,14 @@
     <header>
         <h1>Add a Book to the Library</h1>
     </header>
-    <p>To add a new book by {{ author.getFullName() }}, enter the book details in the fields below then select "Confirm".</p>
+    <p>To add a new book by <a href="{{ path('book_review_view_author', {'authorId' : author.id}) }}">{{ author.fullName }}</a>, enter the book details in the fields below then select "Confirm".</p>
     {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-primary">Save</button>
     {{ form_end(form) }}
 {% endblock %}
 {% block list %}
-    <h3>Other books by {{ author.getFullName() }}:</h3>
+    <h3>Other books by <a href="{{ path('book_review_view_author', {'authorId' : author.id}) }}">{{ author.fullName }}</a>:</h3>
     <button type="button"><a href="{{ path('book_review_add_book', {'authorId' : author.id}) }}">Add a Book by {{ author.fullName }}</a></button>
     {% for book in author.books %}
         <div class="row">

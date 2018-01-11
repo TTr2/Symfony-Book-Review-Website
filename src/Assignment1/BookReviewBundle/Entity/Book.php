@@ -12,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Book
  *
+ * @Vich\Uploadable
+ *
  * @ORM\Table(name="book")
  * @ORM\Entity(repositoryClass="Assignment1\BookReviewBundle\Repository\BookRepository")
  */
@@ -43,7 +45,7 @@ class Book
     /**
      * @var string
      *
-     * @ORM\Column(name="synopsis", type="text")
+     * @ORM\Column(name="synopsis", type="text", nullable=true)
      */
     private $synopsis;
 
@@ -96,7 +98,7 @@ class Book
     private $publishedDate;
 
     /**
-     * @Vich\UploadableField(mapping="author_images", fileNameProperty="imageName", size="imageSize")
+     * @Vich\UploadableField(mapping="book_images", fileNameProperty="imageName")
      *
      * @var File
      */
@@ -339,6 +341,14 @@ class Book
     /**
      * @return string
      */
+    public function getImageFilePath()
+    {
+        return 'bundles/BookReviewBundle/assets/book_covers/' . $this->imageName;
+    }
+
+    /**
+     * @return string
+     */
     public function getGenre()
     {
         return $this->genre;
@@ -459,10 +469,26 @@ class Book
     }
 
     /**
-     * @return string
+     * Set rating
+     *
+     * @param integer $rating
+     *
+     * @return Book
      */
-    public function getImageFilePath()
+    public function setRating($rating)
     {
-        return 'bundles/BookReviewBundle/assets/book_covers/' . $this->imageName;
+        $this->rating = $rating;
+
+        return $this;
+    }
+
+    /**
+     * Get rating
+     *
+     * @return integer
+     */
+    public function getRating()
+    {
+        return $this->rating;
     }
 }

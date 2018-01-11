@@ -1,16 +1,102 @@
 {% extends 'BookReviewBundle::layout.html.twig' %}
 
-{% block title %}BookReviewBundle:Page:book title{% endblock %}
+{% block title %}{{ book.title }} by {{ book.author.fullName }}{% endblock %}
 {% block imageColumn %}
-    <picture>
-        <source media="(min-width: 1080px)" srcset="">
-        <source media="(min-width: 600px)" srcset="">
-        <img src="" alt="user image" style="width:auto">
-    </picture>
+    <img class="book_image" src="{{ asset(book.imageFilePath)}}" alt="{{ book.imageName }}" width="250" height="375">
+    <p></p>
+    <button class="btn btn-warning edit_button" type="button"><a href="{{ path('book_review_edit_book', {'bookId' : book.id}) }}">Edit Book</a></button>
+    <p class="disclaimer" style="font-style: italic">Your help is appreciated! We are a community run site so we rely on the active contribution of users, but please strive for truth and accuracy.</p>
 {% endblock %}
 {% block details %}
-    <h1>Book Name</h1>
+    <header>
+        <h1>{{ book.title }} (Book)</h1>
+        <h3> by <a href="{{ path('book_review_view_author', {'authorId' : book.author.id}) }}">{{ book.author.fullName }}</a></h3>
+    </header>
+    <p><b>Synopsis:</b> {{ book.synopsis }}</p>
+    <div class="row">
+        <section class="col-md-6">
+            <p><b>Rating:</b> {{ avgRating|rating }}</p>
+        </section>
+        <section class="col-md-6">
+            <p><b># of Reviews:</b></p>
+            <p id="book_review_count">{{ numReviews }}</p>
+        </section>
+    </div>
+    <div class="row">
+        <section class="col-md-6">
+            <p><b>Genre:</b> {{ book.genre }}</p>
+        </section>
+        <section class="col-md-6">
+            <p><b>Publisher:</b> {{ book.publisher }}</p>
+        </section>
+    </div>
+    <div class="row">
+        <section class="col-md-6">
+            <p><b>Pages:</b> {{ book.pages }}</p>
+        </section>
+        <section class="col-md-6">
+            <p><b>Published Date:</b> {{ book.publishedDate|date('d/m/y') }}</p>
+        </section>
+    </div>
+    <div class="row">
+        <section class="col-md-6">
+            <a href="{{ book.amazonURL }}"><img src="{{ asset('bundles/BookReviewBundle/assets/images/amazon_link_200x38.png') }}"></a>
+        </section>
+        <section class="col-md-6">
+            <p><b>ISN-13:</b> {{ book.isbn13}}</p>
+        </section>
+    </div>
+    <p></p>
+    <p></p>
 {% endblock %}
 {% block list %}
-    Add list here.
+    {% if user is not defined %}
+        <h3>Write a Review of {{ book.title }} by {{ book.author.fullName }}:</h3>
+        <p></p>
+        {{ form_start(form) }}
+        {{ form_end(form) }}
+        <p></p>
+    {% endif %}
+    <h3>Reviews of {{ book.title }} by {{ book.author.fullName }}:</h3>
+    {% for review in book.reviews %}
+        <p></p>
+        <p></p>
+        <div class="row">
+            <section class="col-md-3">
+                <div class="imageColumn" style="padding: 20px 40px 10px 20px">
+                    <img src="{{ asset(book.imageFilePath) }}" alt="Image of the book cover." width="100" height="150px"/>
+                </div>
+            </section>
+            <section class="col-md-8">
+                <h4><a href="{{ path('book_review_view_book', {'bookId' : book.id})}}">{{book.title }}</a></h4>
+                <p>Synopsis: {{ book.synopsis }}</p>
+                <p>Genre: {{ book.genre }}</p>
+            </section>
+            <section class="col-md-1" style="padding-top: 40px">
+                <button class="btn btn-warning" type="button"><a href="{{ path('book_review_edit_book', {'bookId' : book.id}) }}">Edit</a></button>
+            </section>
+        </div>
+    {% endfor %}
+{% endblock %}
+{% block sidebar_content %}
+    <h4>Other books by <a href="{{ path('book_review_view_author', {'authorId' : book.author.id}) }}">{{ book.author.fullName }}</a>:</h4>
+    <button class="btn btn-info" type="button"><a href="{{ path('book_review_add_book', {'authorId' : book.author.id}) }}">Add a Book by {{ book.author.fullName }}</a></button>
+    {% for otherBook in book.author.books %}
+        {% if otherBook != book %}
+            <p></p>
+            <p></p>
+            <div class="row">
+                <section class="col-md-3">
+                    <div class="imageColumn" style="padding: 20px 40px 10px 20px">
+                        <img src="{{ otherBook.imageFilePath}}" alt="Image of the book cover." width="100" height="150px"/>
+                    </div>
+                </section>
+                <section class="col-md-8">
+                    <h4><a href="{{ path('book_review_view_book', {'bookId' : otherBook.id})}}">{{otherBook.title }}</a></h4>
+                    <p>Synopsis: {{ otherBook.synopsis }}</p>
+                    <p>Genre: {{ otherBook.genre }}</p>
+                </section>
+            </div>
+        {% endif %}
+    {% endfor %}
 {% endblock %}

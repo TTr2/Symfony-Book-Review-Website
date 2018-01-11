@@ -12,6 +12,8 @@
     </header>
     <p>To add an author to "Read Together", enter their details in the fields below. For best results, select a square author image (250x250 pixels) then select "Confirm".</p>
     {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-primary">Save</button>
     {{ form_end(form) }}
 {% endblock %}
 

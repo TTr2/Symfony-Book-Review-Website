@@ -2,7 +2,10 @@
 
 namespace Assignment1\BookReviewBundle\Entity;
 
+use DateTime;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
@@ -45,12 +48,14 @@ class Review
     /**
      * @var int
      *
-     * @ORM\Column(name="rating", type="integer")
+     * @Assert\Range(min=0, max=5, minMessage = "Must be 0 stars or more", maxMessage = "Must be 5 stars or less.")
+     * @ORM\Column(name="rating", type="integer", nullable=true)
      */
     private $rating;
 
+
     /**
-     * @var datetime_immutable
+     * @var DateTimeImmutable
      *
      * @ORM\Column(name="datetime", type="datetime_immutable")
      */
@@ -82,6 +87,7 @@ class Review
      */
     public function __construct()
     {
+        $this->date = DateTimeImmutable::createFromMutable(new DateTime());
         $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -122,7 +128,7 @@ class Review
     /**
      * Set date
      *
-     * @param datetime_immutable $date
+     * @param DateTimeImmutable $date
      *
      * @return Review
      */
@@ -136,7 +142,7 @@ class Review
     /**
      * Get date
      *
-     * @return datetime_immutable
+     * @return DateTimeImmutable
      */
     public function getDate()
     {

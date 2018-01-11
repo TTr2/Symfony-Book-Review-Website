@@ -91,16 +91,18 @@ fos_user:
 vich_uploader:
     db_driver: orm
     mappings:
+        book_images:
+            uri_prefix:         /bundles/BookReviewBundle/assets/book_covers
+            upload_destination: 'bundles/BookReviewBundle/assets/book_covers'
+            inject_on_load:     true
+
         author_images:
             uri_prefix:         /bundles/BookReviewBundle/assets/author_images
-#            upload_destination: '%kernel.root_dir%/web/bundles/BookReviewBundle/assets/author_images'
             upload_destination: 'bundles/BookReviewBundle/assets/author_images'
             inject_on_load:     true
 
-        book_image:
-            uri_prefix:         /assets/book_covers
-            upload_destination: '%kernel.root_dir%/../app/Resources/public/assets/book_covers'
 
-        user_image:
-            uri_prefix:         /assets/user_images
-            upload_destination: '%kernel.root_dir%/../app/Resources/public/assets/user_images'
+        user_images:
+            uri_prefix:         /bundles/BookReviewBundle/assets/user_images
+            upload_destination: 'bundles/BookReviewBundle/assets/user_images'
+            inject_on_load:     true

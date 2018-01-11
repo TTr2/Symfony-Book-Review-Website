@@ -16,21 +16,23 @@
 {% endblock %}
 {% block list %}
     <h3>Books by {{ author.getFullName() }}:</h3>
-    <button type="button"><a href="{{ path('book_review_add_book', {'authorId' : author.id}) }}">Add a Book by {{ author.fullName }}</a></button>
+    <button class="btn btn-info" type="button"><a href="{{ path('book_review_add_book', {'authorId' : author.id}) }}">Add a Book by {{ author.fullName }}</a></button>
     {% for book in author.books %}
+        <p></p>
+        <p></p>
         <div class="row">
             <section class="col-md-3">
-                <div class="imageColumn">
-                    <img src="{{ book.imageFile }}" alt="Image of the book cover." width="100" height="150px"/>
+                <div class="imageColumn" style="padding: 20px 40px 10px 20px">
+                    <img src="{{ otherBook.imageFilePath}}" alt="Image of the book cover." width="100" height="150px"/>
                 </div>
             </section>
             <section class="col-md-8">
-                <h4><a href="{{ path('book_review_view_book', {'bookId' : book.id})}}">{{book.title }}</a></h4>
-                <p>Synopsis: {{ book.synopsis }}</p>
-                <p>Genre: {{ book.genre }}</p>
+                <h4><a href="{{ path('book_review_view_book', {'bookId' : otherBook.id})}}">{{otherBook.title }}</a></h4>
+                <p>Synopsis: {{ otherBook.synopsis }}</p>
+                <p>Genre: {{ otherBook.genre }}</p>
             </section>
-            <section class="col-md-1">
-                <button type="button"><a href="{{ path('book_review_edit_book', {'bookId' : book.id}) }}">Edit</a></button>
+            <section class="col-md-1" style="padding-top: 40px">
+                <button class="btn btn-warning" type="button"><a href="{{ path('book_review_edit_book', {'bookId' : otherBook.id}) }}">Edit</a></button>
             </section>
         </div>
     {% endfor %}

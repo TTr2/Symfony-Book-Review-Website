@@ -10,18 +10,26 @@ book_review_about:
 book_review_add_book:
     path:     /books/new/{authorId}
     defaults: { _controller: BookReviewBundle:Book:new}
+    requirements:
+        id: \d+
 
 book_review_edit_book:
     path:     /books/edit/{bookId}
     defaults: { _controller: BookReviewBundle:Book:edit}
+    requirements:
+        id: \d+
 
 book_review_view_book:
     path:     /books/{bookId}
     defaults: { _controller: BookReviewBundle:Book:view }
+    requirements:
+        id: \d+
 
 book_review_view_user:
     path:     /users/{userId}
     defaults: { _controller: BookReviewBundle:Page:user }
+    requirements:
+        id: \d+
 
 book_review_add_author:
     path:     /authors/new
@@ -30,10 +38,26 @@ book_review_add_author:
 book_review_edit_author:
     path:     /authors/edit/{authorId}
     defaults: { _controller: BookReviewBundle:Author:edit}
+    requirements:
+        id: \d+
 
 book_review_view_author:
     path:     /authors/{authorId}
     defaults: { _controller: BookReviewBundle:Author:view}
+    requirements:
+        id: \d+
+
+book_review_edit_review:
+    path:     /reviews/edit/{reviewId}
+    defaults: { _controller: BookReviewBundle:Review:edit}
+    requirements:
+        id: \d+
+
+book_review_view_review:
+    path:     /authors/{authorId}
+    defaults: { _controller: BookReviewBundle:Review:view}
+    requirements:
+        id: \d+
 
 book_review_search:
     path:     /search/

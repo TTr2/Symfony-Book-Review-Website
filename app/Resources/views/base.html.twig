@@ -10,6 +10,7 @@
         '../app/Resources/public/css/screen.css' %}
         <link href="{{ asset_url }} " type="text/css" rel="stylesheet"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
         {% endstylesheets %}
         {% block customstylesheets %}
         {% endblock %}
@@ -19,6 +20,8 @@
         'https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'
         %}
         <script type="text/javascript" src="{{ asset_url }} "></script>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <script type="text/javascript" src="{{ asset('bundles/starrating/js/rating.js') }}"></script>
         {% endjavascripts %}
     {% endblock %}
     {% block favicon %}

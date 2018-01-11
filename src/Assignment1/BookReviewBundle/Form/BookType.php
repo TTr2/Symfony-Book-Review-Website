@@ -39,7 +39,6 @@ class BookType extends AbstractType
                 ->add('publisher', TextType::class, array('label' => 'Publisher: '))
                 ->add('publishedDate', DateType::class, array('label' => 'Published Date: ', 'widget' => 'single_text', 'html5' => true))
                 ->add('amazonURL', TextType::class, array('label' => 'Amazon URL: '))
-                ->add('create', SubmitType::class, array('label' => 'Confirm'))
             ;
         }
         else
@@ -55,32 +54,12 @@ class BookType extends AbstractType
                 ->add('publisher', TextType::class, array('label' => 'Publisher: '))
                 ->add('publishedDate', DateType::class, array('label' => 'Published Date: ', 'widget' => 'single_text', 'html5' => true))
                 ->add('amazonURL', TextType::class, array('label' => 'Amazon URL: '))
-                ->add('create', SubmitType::class, array('label' => 'Confirm'))
             ;
         }
     }
 
-
-    /**
-     * @var \Assignment1\BookReviewBundle\Entity\Genre
-     * @ORM\ManyToOne(targetEntity="Genre")
-     * @ORM\JoinColumn(name="genre_id", referencedColumnName="id", nullable=true)
-     */
-    private $genre;
-
-    /**
-     * @var \Assignment1\BookReviewBundle\Entity\Language
-     * @ORM\ManyToOne(targetEntity="Language")
-     * @ORM\JoinColumn(name="language_id", referencedColumnName="id", nullable=true)
-     */
-    private $language;
-
-
-
-
     public function configureOptions(OptionsResolver $resolver)
     {
-//        $resolver->setRequired('entity_manager');
         $resolver->setDefaults(array(
             'data_class' => Book::class, 'authorId' => null,
         ));

@@ -28,7 +28,6 @@ class AuthorType extends AbstractType
             ->add('lastName', TextType::class, array('label' => 'Last Name: '))
             ->add('imageFile', FileType::class, array('label' => 'Author Image: ', 'required' => false))
             ->add('biography', TextareaType::class, array('label' => 'Biography: '))
-            ->add('create', SubmitType::class, array('label' => 'Confirm'))
         ;
     }
 

@@ -1,0 +1,27 @@
+{% extends 'BookReviewBundle::layout.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <section class="col-md-4">
+            <div class="imageColumn">
+                {% block imageColumn %}
+                    <img class="book_image" src="{{ asset('bundles/BookReviewBundle/assets/images/library.jpeg')}}" alt="Welcome" width="250" height="250">
+                {% endblock %}
+            </div>
+        </section>
+        <section class="col-md-8">
+            <div class="row">
+                <section>
+                    {% block details %}
+                        {% block title %}<h1>Register with Read Together</h1>{% endblock %}
+                        {% block fos_user_content %}
+                            {{ include('@FOSUser/Registration/register_content.html.twig') }}
+                        {% endblock fos_user_content %}
+                    {% endblock %}
+                </section>
+            </div>
+        </section>
+    </div>
+    <p></p>
+    <p></p>
+{% endblock %}
