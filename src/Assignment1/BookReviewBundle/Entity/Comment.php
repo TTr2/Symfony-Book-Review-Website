@@ -2,6 +2,7 @@
 
 namespace Assignment1\BookReviewBundle\Entity;
 
+use DateTime;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -57,6 +58,14 @@ class Comment
      */
     private $reported = false;
 
+    /**
+     * Comment constructor.
+     */
+    public function __construct()
+    {
+        $this->date = DateTimeImmutable::createFromMutable(new DateTime());
+    }
+
 
     /**
      * Get id
@@ -85,7 +94,7 @@ class Comment
     /**
      * Get date
      *
-     * @return datetime_immutable
+     * @return DateTimeImmutable
      */
     public function getDate()
     {

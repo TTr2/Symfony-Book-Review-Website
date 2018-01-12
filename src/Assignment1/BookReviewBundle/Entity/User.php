@@ -103,8 +103,7 @@ class User extends BaseUser
         if ($this->imageName === null)
         {
             $num = rand(1,8);
-            $filename = 'bundles/BookReviewBundle/assets/user_images/stockAvatar' . $num . '.png';
-            $this->setImageName($filename);
+            $this->setImageName('stockAvatar' . $num . '.png');
         }
     }
 

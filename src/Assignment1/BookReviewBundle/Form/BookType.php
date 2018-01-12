@@ -30,7 +30,12 @@ class BookType extends AbstractType
         {
             $builder
                 ->add('title', TextType::class, array('label' => 'Title: '))
-                ->add('author', EntityType::class, array('label' => 'Author: ', 'class' => Author::Class, 'choice_label' => 'FullName', 'query_builder' => function (AuthorRepository $er) use($authorId){return $er->createQueryBuilder($authorId)->getFirstResult();}))
+                ->add('author', EntityType::class, array('label' => 'Author: ', 'class' => Author::Class, 'choice_label' => 'FullName',
+                    'query_builder' => function (AuthorRepository $er) use($authorId){
+                        return $er->createQueryBuilder('a')
+                            ->select('a')
+                            ->where('a.id = :authorId')
+                            ->setParameter(":authorId", $authorId);}))
                 ->add('synopsis', TextareaType::class, array('label' => 'Synopsis: '))
                 ->add('genre', TextType::class, array('label' => 'Genre: '))
                 ->add('imageFile', FileType::class, array('label' => 'Book Cover: ', 'required' => false))

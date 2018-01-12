@@ -1,16 +1,90 @@
 {% extends 'BookReviewBundle::layout.html.twig' %}
 
-{% block title %}BookReviewBundle:Page:review name{% endblock %}
+{% block title %}{{ review.book.title }} (Review){% endblock %}
 {% block imageColumn %}
-    <picture>
-        <source media="(min-width: 1080px)" srcset="">
-        <source media="(min-width: 600px)" srcset="">
-        <img src="" alt="user image" style="width:auto">
-    </picture>
-{% endblock %}
+    <img src="{{ asset(review.book.imageFilePath)}}" alt="{{ review.book.imageName }}" width="250" height="375">
+    <p></p>
+    {% if user == review.user %}
+        <button class="btn btn-warning edit_button" type="button"><a href="{{ path('book_review_edit_review', {'reviewId' : review.id}) }}">Edit Review</a></button>
+        <p class="disclaimer" style="font-style: italic">Your help is appreciated! We are a community run site so we rely on the active contribution of users, but please strive for truth and accuracy.</p>
+    {%  endif %}
+    {% endblock %}
 {% block details %}
-    <h1>User's Name</h1>
+    <header>
+        <h1><a href="{{ path('book_review_view_book', {'bookId' : review.book.id}) }}">{{ review.book.title }}</a> (Review)</h1>
+        <h4> by <a href="{{ path('book_review_view_author', {'authorId' : review.book.author.id}) }}">{{ review.book.author.fullName }}</a></h4>
+    </header>
+    <h3><b>Summary:</b> "{{ review.summary }}"</h3>
+    <div class="row">
+        <div class="col-sm-2">
+            <img class="book_image" src="{{ asset(review.user.imageFilePath)}}" alt="{{ review.user.imageName }}" width="75" height="75">
+        </div>
+        <div class="col-sm-10">
+            <p>Reviewed by <a href="{{ path('book_review_view_user', {'userId' : review.user.id}) }}">{{ review.user.username }}</a> at {{ review.date|date('H:i d/m/y') }}</p>
+            <p><b>Rating:</b> {{ review.rating|rating(5, "fa-norm") }}</p>
+        </div>
+    </div>
+    <p></p>
+    <p><b>Review:</b> {{ review.messageBody }}</p>
+    <p></p>
+    <p></p>
 {% endblock %}
 {% block list %}
-    Add list here.
+    <h4>Comments:</h4>
+    {% for comment in review.comments %}
+        <p></p>
+        <p></p>
+        <div class="row">
+            <div class="col-sm-2">
+                <img src="{{ asset(comment.user.imageFilePath)}}" alt="{{ comment.user.imageName }}" width="50" height="50">
+            </div>
+            <div class="col-sm-8">
+                <p><b>{{ comment.user.username }}</b> at {{ comment.date|date('H:i d/m/y') }} said:</p>
+                <p>"{{ comment.commentBody}}"</p>
+            </div>
+            <div class="col-sm-8">
+                {% if comment.user.id == user.id %}
+                    <div class="row" style="float: right">
+                        <button class="btn btn-danger" style="font-size: x-small" type="button"><a href="{{ path('book_review_delete_comment', {'commentId' : comment.id}) }}">Delete</a></button>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+    {% if app.user %}
+        <h4>Write a comment:</h4>
+        <p></p>
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-info edit_button">Comment</button>
+            {{ form_end(form) }}
+        <p></p>
+    {% else %}
+        {% if review.user.comments.count is empty %}
+            <p>No comments. Why not <a href="{{ path('fos_user_security_login') }}">log-in</a> or <a href="{{ path('fos_user_registration_register') }}">register</a> to add a comment and take part in the Read Together community?</p>
+        {% else %}
+            <p>Why not <a href="{{ path('fos_user_security_login') }}">log in</a> or <a href="{{ path('fos_user_registration_register') }}">register</a> to add a comment and take part in the Read Together community?</p>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+{% block sidebar_content %}
+    <h4>Other reviews by <a href="{{ path('book_review_view_user', {'userId' : review.user.id}) }}">{{ review.user.username }}</a>:</h4>
+    {% for otherReviews in review.user.reviews %}
+        {% if otherReview is defined and otherReview != review %}
+            <p></p>
+            <p></p>
+            <div class="row">
+                <section class="col-md-3">
+                    <div class="imageColumn">
+                        <img class="book_image" src="{{ otherReview.book.imageFilePath}}" alt="Image of the book cover." width="100" height="150px"/>
+                    </div>
+                </section>
+                <section class="col-md-8">
+                    <h4><a href="{{ path('book_review_view_book', {'bookId' : otherReview.book.id})}}">{{otherReview.book.title }}</a></h4>
+                    <p><b>Rating:</b> {{ otherReview.rating|rating(5, "fa-norm") }}</p>
+                    <p class="disclaimer">{{ otherReview.summary }}</p>
+                </section>
+            </div>
+        {% endif %}
+    {% endfor %}
 {% endblock %}

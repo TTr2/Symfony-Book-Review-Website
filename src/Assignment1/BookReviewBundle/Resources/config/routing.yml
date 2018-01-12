@@ -53,8 +53,15 @@ book_review_edit_review:
     requirements:
         id: \d+
 
+book_review_delete_comment:
+    path:     /reviews/deletecomment/{commentId}
+    defaults: { _controller: BookReviewBundle:Review:deleteComment}
+    requirements:
+        id: \d+
+
+
 book_review_view_review:
-    path:     /authors/{authorId}
+    path:     /reviews/{reviewId}
     defaults: { _controller: BookReviewBundle:Review:view}
     requirements:
         id: \d+

@@ -20,16 +20,8 @@ class PageController extends Controller
 
     public function userAction($userId)
     {
-        return $this->render('viewUser.twig', array(
+        return $this->render('BookReviewBundle:Page:viewUser.twig', array(
             'userId' => $userId
         ));
     }
-
-    public function reviewAction($reviewId)
-    {
-        return $this->render('viewReview.html.twig', array(
-            'reviewId' => $reviewId
-        ));
-    }
-
 }

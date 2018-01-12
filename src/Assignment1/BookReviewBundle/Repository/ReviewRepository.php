@@ -10,4 +10,30 @@ namespace Assignment1\BookReviewBundle\Repository;
  */
 class ReviewRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param $userId
+     * @param $bookId
+     * @return mixed
+     */
+    public function checkIfReviewExists($userId, $bookId)
+    {
+        $er = $this->getEntityManager()->getRepository('BookReviewBundle:Review');
+        $qb = $er->createQueryBuilder('r')
+                ->where('r.book = :bookId) AND r.user = :userId')
+                ->setParameter(':bookId',$bookId)
+                ->setParameter(':userId', $userId);
+        return $qb->getQuery()->getFirstResult();
+/*
+        $query = $this->createQueryBuilder('review')
+            ->select('re.id')
+            ->from('BookReviewBundle:Review','re')
+            ->where('re.user = :userId')
+            ->andWhere('re.book = :bookId')
+            ->setParameter(":userId", $userId)
+            ->setParameter(":bookId", $bookId)
+            ->getQuery();
+
+        return $query->getScalarResult();
+*/
+    }
 }

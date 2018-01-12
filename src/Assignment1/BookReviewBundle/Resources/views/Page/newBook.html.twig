@@ -3,21 +3,21 @@
 {% block title %} Add a Book{% endblock %}
 {% block imageColumn %}
     <img src="{{ asset('bundles/BookReviewBundle/assets/book_covers/no_cover_available.png')}}" alt="No Cover Available" width="250" height="350">
+    <p></p>
     <p class="disclaimer" style="font-style: italic">Your help is appreciated! We are a community run site so we rely on the active contribution of users, but please strive for truth and accuracy.</p>
 {% endblock %}
 {% block details %}
     <header>
         <h1>Add a Book to the Library</h1>
     </header>
-    <p>To add a new book by <a href="{{ path('book_review_view_author', {'authorId' : author.id}) }}">{{ author.fullName }}</a>, enter the book details in the fields below then select "Confirm".</p>
+    <p>To add a new book by <a href="{{ path('book_review_view_author', {'authorId' : author.id}) }}">{{ author.fullName }}</a>, enter the book details in the fields below then select "Save".</p>
     {{ form_start(form) }}
         {{ form_widget(form) }}
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="submit" class="btn btn-primary edit_button">Save</button>
     {{ form_end(form) }}
 {% endblock %}
 {% block list %}
     <h3>Other books by <a href="{{ path('book_review_view_author', {'authorId' : author.id}) }}">{{ author.fullName }}</a>:</h3>
-    <button type="button"><a href="{{ path('book_review_add_book', {'authorId' : author.id}) }}">Add a Book by {{ author.fullName }}</a></button>
     {% for book in author.books %}
         <div class="row">
             <section class="col-md-3">
@@ -35,5 +35,6 @@
             </section>
         </div>
     {% endfor %}
+    <p></p>
 {% endblock %}
 

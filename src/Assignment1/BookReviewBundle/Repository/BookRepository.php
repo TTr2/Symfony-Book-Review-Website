@@ -19,9 +19,9 @@ class BookRepository extends EntityRepository
     public function queryAverageBookReviewRating($bookId)
     {
         $erReview = $this->getEntityManager()->getRepository('BookReviewBundle:Review');
-        $query = $erReview->createQueryBuilder('r')
-            ->select('avg(r.rating)')
-            ->where('r.book = :bookId')
+        $query = $erReview->createQueryBuilder('ra')
+            ->select('avg(ra.rating)')
+            ->where('ra.book = :bookId')
             ->setParameter(":bookId", $bookId)
             ->getQuery();
 
@@ -35,9 +35,9 @@ class BookRepository extends EntityRepository
     public function queryCountBookReviews($bookId)
     {
         $er = $this->getEntityManager()->getRepository('BookReviewBundle:Review');
-        $query = $er->createQueryBuilder('r')
-            ->select('count(r.id)')
-            ->where('r.book = :bookId')
+        $query = $er->createQueryBuilder('rc')
+            ->select('count(rc.id)')
+            ->where('rc.book = :bookId')
             ->setParameter(":bookId", $bookId)
             ->getQuery();
 

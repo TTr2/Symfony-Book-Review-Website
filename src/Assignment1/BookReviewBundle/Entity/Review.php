@@ -204,7 +204,7 @@ class Review
      *
      * @return Review
      */
-    public function setBook(\Assignment1\BookReviewBundle\Entity\User $book = null)
+    public function setBook(Book $book = null)
     {
         $this->book = $book;
 
